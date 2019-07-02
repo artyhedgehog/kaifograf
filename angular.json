@@ -1,0 +1,141 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "kaifograf": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/workspace:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/kaifograf",
+      "sourceRoot": "apps/kaifograf/src",
+      "prefix": "kaifograf",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/kaifograf",
+            "index": "apps/kaifograf/src/index.html",
+            "main": "apps/kaifograf/src/main.ts",
+            "polyfills": "apps/kaifograf/src/polyfills.ts",
+            "tsConfig": "apps/kaifograf/tsconfig.app.json",
+            "assets": [
+              "apps/kaifograf/src/favicon.ico",
+              "apps/kaifograf/src/assets"
+            ],
+            "styles": ["apps/kaifograf/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/kaifograf/src/environments/environment.ts",
+                  "with": "apps/kaifograf/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "kaifograf:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "kaifograf:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "kaifograf:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/kaifograf/tsconfig.app.json",
+              "apps/kaifograf/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/kaifograf/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/kaifograf/jest.config.js",
+            "tsConfig": "apps/kaifograf/tsconfig.spec.json",
+            "setupFile": "apps/kaifograf/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "kaifograf-e2e": {
+      "root": "apps/kaifograf-e2e",
+      "sourceRoot": "apps/kaifograf-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/kaifograf-e2e/cypress.json",
+            "tsConfig": "apps/kaifograf-e2e/tsconfig.e2e.json",
+            "devServerTarget": "kaifograf:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "kaifograf:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/kaifograf-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**", "!apps/kaifograf-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "kaifograf"
+}
